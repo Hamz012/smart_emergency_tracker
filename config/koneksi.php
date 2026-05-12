@@ -4,7 +4,7 @@ $conn = mysqli_connect(
 
     'kodama.proxy.rlwy.net',
     'root',
-    'PASSWORD_ASLI_RAILWAY',
+    'VMQqgajQfCKnUlFeZvmBrkVHdrquaxpu',
     'railway',
     13560
 
