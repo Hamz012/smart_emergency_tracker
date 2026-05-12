@@ -1,5 +1,57 @@
 <?php
+
 session_start();
+
+include 'config/koneksi.php';
+
+$error = '';
+
+if(isset($_POST['login'])){
+
+    $nama =
+    mysqli_real_escape_string(
+    $conn,
+    $_POST['nama']
+    );
+
+    $query = mysqli_query($conn,
+
+    "
+
+    SELECT * FROM users
+
+    WHERE nama='$nama'
+
+    "
+
+    );
+
+    $data =
+    mysqli_fetch_assoc($query);
+
+    if($data){
+
+        $_SESSION['user_id'] =
+        $data['id'];
+
+        $_SESSION['nama'] =
+        $data['nama'];
+
+        header(
+        'Location: dashboard.php'
+        );
+
+        exit();
+
+    }else{
+
+        $error =
+        'Nama tidak ditemukan';
+
+    }
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -13,11 +65,14 @@ session_start();
 content="width=device-width, initial-scale=1.0">
 
 <title>
-Smart Emergency Tracker
+Login Pelapor
 </title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -25,28 +80,30 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Inter',sans-serif;
+    font-family:'Poppins',sans-serif;
 }
 
 body{
 
     min-height:100vh;
 
-    background:
-    linear-gradient(
-    135deg,
-    #0f172a,
-    #1e293b,
-    #2563eb
-    );
-
     display:flex;
     justify-content:center;
     align-items:center;
 
+    background:
+    linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #0f766e 50%,
+    #22c55e 100%
+    );
+
     overflow:hidden;
 
     position:relative;
+
+    padding:20px;
 
 }
 
@@ -63,31 +120,43 @@ BACKGROUND EFFECT
     background:
     rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(10px);
+    filter:blur(5px);
 
-    animation:float 6s ease-in-out infinite;
+    animation:float 8s ease-in-out infinite;
 
 }
 
 .bg1{
 
-    width:300px;
-    height:300px;
+    width:350px;
+    height:350px;
 
-    top:-100px;
-    left:-100px;
+    top:-120px;
+    left:-120px;
 
 }
 
 .bg2{
 
-    width:250px;
-    height:250px;
+    width:280px;
+    height:280px;
 
-    bottom:-80px;
-    right:-80px;
+    bottom:-100px;
+    right:-100px;
 
     animation-delay:2s;
+
+}
+
+.bg3{
+
+    width:180px;
+    height:180px;
+
+    top:50%;
+    left:10%;
+
+    animation-delay:4s;
 
 }
 
@@ -108,34 +177,63 @@ BACKGROUND EFFECT
 }
 
 /* =========================
-CARD
+LOGIN BOX
 ========================= */
 
-.splash-card{
+.login-box{
 
     width:100%;
-    max-width:500px;
+    max-width:430px;
 
     background:
     rgba(255,255,255,0.12);
 
+    backdrop-filter:blur(18px);
+
     border:
     1px solid rgba(255,255,255,0.15);
 
-    backdrop-filter:blur(15px);
-
-    border-radius:35px;
+    border-radius:32px;
 
     padding:45px 35px;
 
-    text-align:center;
-
     box-shadow:
-    0 20px 50px rgba(0,0,0,0.25);
+    0 25px 70px rgba(0,0,0,0.35);
 
     position:relative;
 
     z-index:10;
+
+}
+
+/* =========================
+TOP BADGE
+========================= */
+
+.top-badge{
+
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:20px;
+
+}
+
+.badge{
+
+    background:
+    rgba(255,255,255,0.15);
+
+    color:#ecfdf5;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    border:
+    1px solid rgba(255,255,255,0.15);
 
 }
 
@@ -145,18 +243,18 @@ LOGO
 
 .logo{
 
-    width:120px;
-    height:120px;
+    width:105px;
+    height:105px;
 
     margin:auto;
 
-    border-radius:35px;
+    border-radius:28px;
 
     background:
     linear-gradient(
     135deg,
-    #2563eb,
-    #0ea5e9
+    #22c55e,
+    #15803d
     );
 
     display:flex;
@@ -165,30 +263,29 @@ LOGO
 
     color:white;
 
-    font-size:55px;
+    font-size:42px;
 
     box-shadow:
-    0 15px 35px rgba(37,99,235,0.45);
+    0 15px 35px rgba(34,197,94,0.45);
 
-    margin-bottom:30px;
+    margin-bottom:28px;
 
-    animation:pulse 2s infinite;
+    position:relative;
 
 }
 
-@keyframes pulse{
+.logo::after{
 
-    0%{
-        transform:scale(1);
-    }
+    content:'';
 
-    50%{
-        transform:scale(1.05);
-    }
+    position:absolute;
 
-    100%{
-        transform:scale(1);
-    }
+    inset:-8px;
+
+    border-radius:35px;
+
+    border:
+    2px solid rgba(255,255,255,0.15);
 
 }
 
@@ -200,90 +297,164 @@ h1{
 
     color:white;
 
-    font-size:38px;
+    text-align:center;
 
-    font-weight:800;
+    font-size:34px;
 
-    margin-bottom:15px;
+    font-weight:700;
+
+    margin-bottom:12px;
+
+    letter-spacing:0.5px;
 
 }
 
 .desc{
 
-    color:#dbeafe;
+    text-align:center;
 
-    font-size:16px;
+    color:#d1fae5;
 
-    line-height:1.7;
+    margin-bottom:35px;
 
-    margin-bottom:40px;
+    font-size:14px;
+
+    line-height:1.8;
 
 }
 
 /* =========================
-BUTTONS
+ERROR
 ========================= */
 
-.button-group{
+.error{
 
-    display:flex;
-    flex-direction:column;
+    background:
+    rgba(239,68,68,0.15);
 
-    gap:20px;
+    border:
+    1px solid rgba(239,68,68,0.3);
+
+    color:#fee2e2;
+
+    padding:15px;
+
+    border-radius:18px;
+
+    margin-bottom:22px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    font-weight:500;
 
 }
 
-.btn{
+/* =========================
+INPUT GROUP
+========================= */
 
-    width:100%;
+.input-group{
 
-    padding:20px;
+    margin-bottom:24px;
 
-    border:none;
+}
 
-    border-radius:22px;
+.label{
 
     color:white;
 
-    font-size:18px;
+    font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
-    cursor:pointer;
+    margin-bottom:10px;
+
+    display:block;
+
+}
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-box i{
+
+    position:absolute;
+
+    top:50%;
+
+    left:18px;
+
+    transform:translateY(-50%);
+
+    color:#bbf7d0;
+
+    font-size:17px;
+
+}
+
+input{
+
+    width:100%;
+
+    padding:18px 18px 18px 55px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,0.14);
+
+    color:white;
+
+    font-size:15px;
+
+    outline:none;
 
     transition:0.3s;
 
-    text-decoration:none;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:14px;
+    border:
+    1px solid transparent;
 
 }
 
-.btn:hover{
+input::placeholder{
 
-    transform:
-    translateY(-5px);
+    color:#d1fae5;
 
 }
 
-.btn-police{
+input:focus{
 
     background:
-    linear-gradient(
-    135deg,
-    #2563eb,
-    #1d4ed8
-    );
+    rgba(255,255,255,0.18);
+
+    border:
+    1px solid rgba(255,255,255,0.25);
 
     box-shadow:
-    0 12px 30px rgba(37,99,235,0.35);
+    0 0 0 4px rgba(255,255,255,0.08);
 
 }
 
-.btn-user{
+/* =========================
+BUTTON
+========================= */
+
+button{
+
+    width:100%;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:20px;
 
     background:
     linear-gradient(
@@ -292,8 +463,62 @@ BUTTONS
     #16a34a
     );
 
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
     box-shadow:
-    0 12px 30px rgba(34,197,94,0.35);
+    0 15px 35px rgba(34,197,94,0.35);
+
+}
+
+button:hover{
+
+    transform:
+    translateY(-3px);
+
+    box-shadow:
+    0 20px 40px rgba(34,197,94,0.45);
+
+}
+
+/* =========================
+REGISTER
+========================= */
+
+.register{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    color:#d1fae5;
+
+    font-size:14px;
+
+}
+
+.register a{
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:0.3s;
+
+}
+
+.register a:hover{
+
+    opacity:0.8;
 
 }
 
@@ -303,11 +528,15 @@ FOOTER
 
 .footer{
 
-    margin-top:35px;
+    text-align:center;
 
-    color:#cbd5e1;
+    margin-top:30px;
 
-    font-size:14px;
+    color:#d1fae5;
+
+    font-size:13px;
+
+    opacity:0.9;
 
 }
 
@@ -317,11 +546,7 @@ RESPONSIVE
 
 @media(max-width:600px){
 
-    body{
-        padding:20px;
-    }
-
-    .splash-card{
+    .login-box{
 
         padding:35px 25px;
 
@@ -331,12 +556,10 @@ RESPONSIVE
 
     .logo{
 
-        width:95px;
-        height:95px;
+        width:90px;
+        height:90px;
 
-        font-size:42px;
-
-        border-radius:28px;
+        font-size:35px;
 
     }
 
@@ -348,17 +571,19 @@ RESPONSIVE
 
     .desc{
 
-        font-size:14px;
+        font-size:13px;
 
     }
 
-    .btn{
+    input{
 
-        padding:18px;
+        padding:16px 16px 16px 50px;
 
-        font-size:16px;
+    }
 
-        border-radius:18px;
+    button{
+
+        padding:16px;
 
     }
 
@@ -376,51 +601,91 @@ RESPONSIVE
 
 <div class="bg-circle bg2"></div>
 
-<!-- CARD -->
+<div class="bg-circle bg3"></div>
 
-<div class="splash-card">
+<!-- LOGIN -->
+
+<div class="login-box">
+
+<div class="top-badge">
+
+<div class="badge">
+
+Smart Emergency Tracker
+
+</div>
+
+</div>
 
 <div class="logo">
 
-<i class="fa-solid fa-shield-halved"></i>
+<i class="fa-solid fa-shield-heart"></i>
 
 </div>
 
 <h1>
-Smart Emergency Tracker
+Login Pelapor
 </h1>
 
 <p class="desc">
 
-Sistem pelaporan darurat realtime berbasis GPS
-untuk menghubungkan masyarakat dan kepolisian
-secara cepat, aman, dan modern.
+Masuk untuk mengakses dashboard pelaporan,
+monitoring darurat, dan sistem keamanan realtime.
 
 </p>
 
-<div class="button-group">
+<?php if($error != ''){ ?>
 
-<!-- LOGIN POLISI -->
+<div class="error">
 
-<a
-href="admin/login.php"
-class="btn btn-police">
+<i class="fa-solid fa-circle-exclamation"></i>
 
-<i class="fa-solid fa-user-shield"></i>
+<?php echo $error; ?>
 
-Masuk Sebagai Polisi
+</div>
 
-</a>
+<?php } ?>
 
-<!-- LOGIN PELAPOR -->
+<form method="POST">
 
-<a
-href="login_user.php"
-class="btn btn-user">
+<div class="input-group">
+
+<label class="label">
+Nama Pelapor
+</label>
+
+<div class="input-box">
 
 <i class="fa-solid fa-user"></i>
 
-Masuk Sebagai Pelapor
+<input
+type="text"
+name="nama"
+placeholder="Masukkan nama lengkap"
+required>
+
+</div>
+
+</div>
+
+<button
+type="submit"
+name="login">
+
+<i class="fa-solid fa-right-to-bracket"></i>
+
+Masuk Dashboard
+
+</button>
+
+</form>
+
+<div class="register">
+
+Belum punya akun?
+<a href="register.php">
+
+Register Sekarang
 
 </a>
 
@@ -428,7 +693,7 @@ Masuk Sebagai Pelapor
 
 <div class="footer">
 
-© 2026 Smart Emergency Tracker
+© 2026 Smart Emergency Tracker • Secure Access
 
 </div>
 
