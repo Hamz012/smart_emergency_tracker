@@ -31,10 +31,7 @@ if(isset($_POST['login'])){
 
     if($data){
 
-        if(password_verify(
-            $password,
-            $data['password']
-        )){
+        if($password == $data['password']){
 
             $_SESSION['id'] =
             $data['id'];
