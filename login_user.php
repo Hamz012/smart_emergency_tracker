@@ -71,13 +71,16 @@ Login Pelapor
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
 <style>
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Inter',sans-serif;
+    font-family:'Poppins',sans-serif;
 }
 
 body{
@@ -91,9 +94,9 @@ body{
     background:
     linear-gradient(
     135deg,
-    #0f172a,
-    #14532d,
-    #22c55e
+    #0f172a 0%,
+    #0f766e 50%,
+    #22c55e 100%
     );
 
     overflow:hidden;
@@ -117,14 +120,16 @@ BACKGROUND EFFECT
     background:
     rgba(255,255,255,0.08);
 
-    animation:float 6s ease-in-out infinite;
+    filter:blur(5px);
+
+    animation:float 8s ease-in-out infinite;
 
 }
 
 .bg1{
 
-    width:300px;
-    height:300px;
+    width:350px;
+    height:350px;
 
     top:-120px;
     left:-120px;
@@ -133,13 +138,25 @@ BACKGROUND EFFECT
 
 .bg2{
 
-    width:250px;
-    height:250px;
+    width:280px;
+    height:280px;
 
     bottom:-100px;
     right:-100px;
 
     animation-delay:2s;
+
+}
+
+.bg3{
+
+    width:180px;
+    height:180px;
+
+    top:50%;
+    left:10%;
+
+    animation-delay:4s;
 
 }
 
@@ -171,21 +188,52 @@ LOGIN BOX
     background:
     rgba(255,255,255,0.12);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:blur(18px);
 
     border:
     1px solid rgba(255,255,255,0.15);
 
-    border-radius:35px;
+    border-radius:32px;
 
     padding:45px 35px;
 
     box-shadow:
-    0 20px 60px rgba(0,0,0,0.25);
+    0 25px 70px rgba(0,0,0,0.35);
 
     position:relative;
 
     z-index:10;
+
+}
+
+/* =========================
+TOP BADGE
+========================= */
+
+.top-badge{
+
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:20px;
+
+}
+
+.badge{
+
+    background:
+    rgba(255,255,255,0.15);
+
+    color:#ecfdf5;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    border:
+    1px solid rgba(255,255,255,0.15);
 
 }
 
@@ -195,18 +243,18 @@ LOGO
 
 .logo{
 
-    width:110px;
-    height:110px;
+    width:105px;
+    height:105px;
 
     margin:auto;
 
-    border-radius:30px;
+    border-radius:28px;
 
     background:
     linear-gradient(
     135deg,
     #22c55e,
-    #16a34a
+    #15803d
     );
 
     display:flex;
@@ -215,14 +263,35 @@ LOGO
 
     color:white;
 
-    font-size:50px;
+    font-size:42px;
 
     box-shadow:
     0 15px 35px rgba(34,197,94,0.45);
 
-    margin-bottom:30px;
+    margin-bottom:28px;
+
+    position:relative;
 
 }
+
+.logo::after{
+
+    content:'';
+
+    position:absolute;
+
+    inset:-8px;
+
+    border-radius:35px;
+
+    border:
+    2px solid rgba(255,255,255,0.15);
+
+}
+
+/* =========================
+TEXT
+========================= */
 
 h1{
 
@@ -232,9 +301,11 @@ h1{
 
     font-size:34px;
 
-    font-weight:800;
+    font-weight:700;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
+
+    letter-spacing:0.5px;
 
 }
 
@@ -242,13 +313,13 @@ h1{
 
     text-align:center;
 
-    color:#dcfce7;
+    color:#d1fae5;
 
     margin-bottom:35px;
 
-    font-size:15px;
+    font-size:14px;
 
-    line-height:1.6;
+    line-height:1.8;
 
 }
 
@@ -259,22 +330,24 @@ ERROR
 .error{
 
     background:
-    rgba(239,68,68,0.18);
+    rgba(239,68,68,0.15);
 
     border:
     1px solid rgba(239,68,68,0.3);
 
-    color:#fecaca;
+    color:#fee2e2;
 
     padding:15px;
 
-    border-radius:16px;
+    border-radius:18px;
 
-    margin-bottom:20px;
+    margin-bottom:22px;
 
     text-align:center;
 
-    font-weight:600;
+    font-size:14px;
+
+    font-weight:500;
 
 }
 
@@ -284,7 +357,7 @@ INPUT GROUP
 
 .input-group{
 
-    margin-bottom:22px;
+    margin-bottom:24px;
 
 }
 
@@ -320,7 +393,7 @@ INPUT GROUP
 
     color:#bbf7d0;
 
-    font-size:18px;
+    font-size:17px;
 
 }
 
@@ -335,7 +408,7 @@ input{
     border-radius:18px;
 
     background:
-    rgba(255,255,255,0.15);
+    rgba(255,255,255,0.14);
 
     color:white;
 
@@ -345,21 +418,27 @@ input{
 
     transition:0.3s;
 
+    border:
+    1px solid transparent;
+
 }
 
 input::placeholder{
 
-    color:#dcfce7;
+    color:#d1fae5;
 
 }
 
 input:focus{
 
     background:
-    rgba(255,255,255,0.2);
+    rgba(255,255,255,0.18);
+
+    border:
+    1px solid rgba(255,255,255,0.25);
 
     box-shadow:
-    0 0 0 3px rgba(255,255,255,0.15);
+    0 0 0 4px rgba(255,255,255,0.08);
 
 }
 
@@ -386,28 +465,31 @@ button{
 
     color:white;
 
-    font-size:17px;
+    font-size:16px;
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
     transition:0.3s;
 
     box-shadow:
-    0 12px 30px rgba(34,197,94,0.35);
+    0 15px 35px rgba(34,197,94,0.35);
 
 }
 
 button:hover{
 
     transform:
-    translateY(-4px);
+    translateY(-3px);
+
+    box-shadow:
+    0 20px 40px rgba(34,197,94,0.45);
 
 }
 
 /* =========================
-REGISTER LINK
+REGISTER
 ========================= */
 
 .register{
@@ -416,15 +498,19 @@ REGISTER LINK
 
     text-align:center;
 
+    color:#d1fae5;
+
+    font-size:14px;
+
 }
 
 .register a{
 
-    color:#dcfce7;
+    color:white;
 
     text-decoration:none;
 
-    font-weight:700;
+    font-weight:600;
 
     transition:0.3s;
 
@@ -432,7 +518,7 @@ REGISTER LINK
 
 .register a:hover{
 
-    color:white;
+    opacity:0.8;
 
 }
 
@@ -444,11 +530,13 @@ FOOTER
 
     text-align:center;
 
-    margin-top:28px;
+    margin-top:30px;
 
-    color:#dcfce7;
+    color:#d1fae5;
 
-    font-size:14px;
+    font-size:13px;
+
+    opacity:0.9;
 
 }
 
@@ -471,9 +559,7 @@ RESPONSIVE
         width:90px;
         height:90px;
 
-        font-size:40px;
-
-        border-radius:24px;
+        font-size:35px;
 
     }
 
@@ -485,7 +571,7 @@ RESPONSIVE
 
     .desc{
 
-        font-size:14px;
+        font-size:13px;
 
     }
 
@@ -493,15 +579,11 @@ RESPONSIVE
 
         padding:16px 16px 16px 50px;
 
-        border-radius:16px;
-
     }
 
     button{
 
         padding:16px;
-
-        border-radius:16px;
 
     }
 
@@ -519,13 +601,25 @@ RESPONSIVE
 
 <div class="bg-circle bg2"></div>
 
+<div class="bg-circle bg3"></div>
+
 <!-- LOGIN -->
 
 <div class="login-box">
 
+<div class="top-badge">
+
+<div class="badge">
+
+Smart Emergency Tracker
+
+</div>
+
+</div>
+
 <div class="logo">
 
-<i class="fa-solid fa-user"></i>
+<i class="fa-solid fa-shield-heart"></i>
 
 </div>
 
@@ -535,8 +629,8 @@ Login Pelapor
 
 <p class="desc">
 
-Masuk untuk mengakses sistem
-Smart Emergency Tracker
+Masuk untuk mengakses dashboard pelaporan,
+monitoring darurat, dan sistem keamanan realtime.
 
 </p>
 
@@ -567,7 +661,7 @@ Nama Pelapor
 <input
 type="text"
 name="nama"
-placeholder="Masukkan nama"
+placeholder="Masukkan nama lengkap"
 required>
 
 </div>
@@ -588,11 +682,10 @@ Masuk Dashboard
 
 <div class="register">
 
+Belum punya akun?
 <a href="register.php">
 
-<i class="fa-solid fa-user-plus"></i>
-
-Belum punya akun? Register
+Register Sekarang
 
 </a>
 
@@ -600,7 +693,7 @@ Belum punya akun? Register
 
 <div class="footer">
 
-© 2026 Smart Emergency Tracker
+© 2026 Smart Emergency Tracker • Secure Access
 
 </div>
 

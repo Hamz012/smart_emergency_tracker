@@ -1,57 +1,5 @@
 <?php
-
 session_start();
-
-include 'config/koneksi.php';
-
-$error = '';
-
-if(isset($_POST['login'])){
-
-    $nama =
-    mysqli_real_escape_string(
-    $conn,
-    $_POST['nama']
-    );
-
-    $query = mysqli_query($conn,
-
-    "
-
-    SELECT * FROM users
-
-    WHERE nama='$nama'
-
-    "
-
-    );
-
-    $data =
-    mysqli_fetch_assoc($query);
-
-    if($data){
-
-        $_SESSION['user_id'] =
-        $data['id'];
-
-        $_SESSION['nama'] =
-        $data['nama'];
-
-        header(
-        'Location: dashboard.php'
-        );
-
-        exit();
-
-    }else{
-
-        $error =
-        'Nama tidak ditemukan';
-
-    }
-
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -65,14 +13,11 @@ if(isset($_POST['login'])){
 content="width=device-width, initial-scale=1.0">
 
 <title>
-Login Pelapor
+Smart Emergency Tracker
 </title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
 
 <style>
 
@@ -80,30 +25,28 @@ rel="stylesheet">
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    font-family:'Inter',sans-serif;
 }
 
 body{
 
     min-height:100vh;
 
+    background:
+    linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b,
+    #2563eb
+    );
+
     display:flex;
     justify-content:center;
     align-items:center;
 
-    background:
-    linear-gradient(
-    135deg,
-    #0f172a 0%,
-    #0f766e 50%,
-    #22c55e 100%
-    );
-
     overflow:hidden;
 
     position:relative;
-
-    padding:20px;
 
 }
 
@@ -120,43 +63,31 @@ BACKGROUND EFFECT
     background:
     rgba(255,255,255,0.08);
 
-    filter:blur(5px);
+    backdrop-filter:blur(10px);
 
-    animation:float 8s ease-in-out infinite;
+    animation:float 6s ease-in-out infinite;
 
 }
 
 .bg1{
 
-    width:350px;
-    height:350px;
+    width:300px;
+    height:300px;
 
-    top:-120px;
-    left:-120px;
+    top:-100px;
+    left:-100px;
 
 }
 
 .bg2{
 
-    width:280px;
-    height:280px;
+    width:250px;
+    height:250px;
 
-    bottom:-100px;
-    right:-100px;
+    bottom:-80px;
+    right:-80px;
 
     animation-delay:2s;
-
-}
-
-.bg3{
-
-    width:180px;
-    height:180px;
-
-    top:50%;
-    left:10%;
-
-    animation-delay:4s;
 
 }
 
@@ -177,63 +108,34 @@ BACKGROUND EFFECT
 }
 
 /* =========================
-LOGIN BOX
+CARD
 ========================= */
 
-.login-box{
+.splash-card{
 
     width:100%;
-    max-width:430px;
+    max-width:500px;
 
     background:
     rgba(255,255,255,0.12);
 
-    backdrop-filter:blur(18px);
-
     border:
     1px solid rgba(255,255,255,0.15);
 
-    border-radius:32px;
+    backdrop-filter:blur(15px);
+
+    border-radius:35px;
 
     padding:45px 35px;
 
+    text-align:center;
+
     box-shadow:
-    0 25px 70px rgba(0,0,0,0.35);
+    0 20px 50px rgba(0,0,0,0.25);
 
     position:relative;
 
     z-index:10;
-
-}
-
-/* =========================
-TOP BADGE
-========================= */
-
-.top-badge{
-
-    display:flex;
-    justify-content:center;
-
-    margin-bottom:20px;
-
-}
-
-.badge{
-
-    background:
-    rgba(255,255,255,0.15);
-
-    color:#ecfdf5;
-
-    padding:8px 18px;
-
-    border-radius:999px;
-
-    font-size:13px;
-
-    border:
-    1px solid rgba(255,255,255,0.15);
 
 }
 
@@ -243,18 +145,18 @@ LOGO
 
 .logo{
 
-    width:105px;
-    height:105px;
+    width:120px;
+    height:120px;
 
     margin:auto;
 
-    border-radius:28px;
+    border-radius:35px;
 
     background:
     linear-gradient(
     135deg,
-    #22c55e,
-    #15803d
+    #2563eb,
+    #0ea5e9
     );
 
     display:flex;
@@ -263,29 +165,30 @@ LOGO
 
     color:white;
 
-    font-size:42px;
+    font-size:55px;
 
     box-shadow:
-    0 15px 35px rgba(34,197,94,0.45);
+    0 15px 35px rgba(37,99,235,0.45);
 
-    margin-bottom:28px;
+    margin-bottom:30px;
 
-    position:relative;
+    animation:pulse 2s infinite;
 
 }
 
-.logo::after{
+@keyframes pulse{
 
-    content:'';
+    0%{
+        transform:scale(1);
+    }
 
-    position:absolute;
+    50%{
+        transform:scale(1.05);
+    }
 
-    inset:-8px;
-
-    border-radius:35px;
-
-    border:
-    2px solid rgba(255,255,255,0.15);
+    100%{
+        transform:scale(1);
+    }
 
 }
 
@@ -297,164 +200,90 @@ h1{
 
     color:white;
 
-    text-align:center;
+    font-size:38px;
 
-    font-size:34px;
+    font-weight:800;
 
-    font-weight:700;
-
-    margin-bottom:12px;
-
-    letter-spacing:0.5px;
+    margin-bottom:15px;
 
 }
 
 .desc{
 
-    text-align:center;
+    color:#dbeafe;
 
-    color:#d1fae5;
+    font-size:16px;
 
-    margin-bottom:35px;
+    line-height:1.7;
 
-    font-size:14px;
-
-    line-height:1.8;
+    margin-bottom:40px;
 
 }
 
 /* =========================
-ERROR
+BUTTONS
 ========================= */
 
-.error{
+.button-group{
 
-    background:
-    rgba(239,68,68,0.15);
+    display:flex;
+    flex-direction:column;
 
-    border:
-    1px solid rgba(239,68,68,0.3);
-
-    color:#fee2e2;
-
-    padding:15px;
-
-    border-radius:18px;
-
-    margin-bottom:22px;
-
-    text-align:center;
-
-    font-size:14px;
-
-    font-weight:500;
+    gap:20px;
 
 }
 
-/* =========================
-INPUT GROUP
-========================= */
-
-.input-group{
-
-    margin-bottom:24px;
-
-}
-
-.label{
-
-    color:white;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    margin-bottom:10px;
-
-    display:block;
-
-}
-
-.input-box{
-
-    position:relative;
-
-}
-
-.input-box i{
-
-    position:absolute;
-
-    top:50%;
-
-    left:18px;
-
-    transform:translateY(-50%);
-
-    color:#bbf7d0;
-
-    font-size:17px;
-
-}
-
-input{
+.btn{
 
     width:100%;
 
-    padding:18px 18px 18px 55px;
+    padding:20px;
 
     border:none;
 
-    border-radius:18px;
-
-    background:
-    rgba(255,255,255,0.14);
+    border-radius:22px;
 
     color:white;
 
-    font-size:15px;
+    font-size:18px;
 
-    outline:none;
+    font-weight:700;
+
+    cursor:pointer;
 
     transition:0.3s;
 
-    border:
-    1px solid transparent;
+    text-decoration:none;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
 
 }
 
-input::placeholder{
+.btn:hover{
 
-    color:#d1fae5;
+    transform:
+    translateY(-5px);
 
 }
 
-input:focus{
+.btn-police{
 
     background:
-    rgba(255,255,255,0.18);
-
-    border:
-    1px solid rgba(255,255,255,0.25);
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+    );
 
     box-shadow:
-    0 0 0 4px rgba(255,255,255,0.08);
+    0 12px 30px rgba(37,99,235,0.35);
 
 }
 
-/* =========================
-BUTTON
-========================= */
-
-button{
-
-    width:100%;
-
-    padding:18px;
-
-    border:none;
-
-    border-radius:20px;
+.btn-user{
 
     background:
     linear-gradient(
@@ -463,62 +292,8 @@ button{
     #16a34a
     );
 
-    color:white;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:0.3s;
-
     box-shadow:
-    0 15px 35px rgba(34,197,94,0.35);
-
-}
-
-button:hover{
-
-    transform:
-    translateY(-3px);
-
-    box-shadow:
-    0 20px 40px rgba(34,197,94,0.45);
-
-}
-
-/* =========================
-REGISTER
-========================= */
-
-.register{
-
-    margin-top:25px;
-
-    text-align:center;
-
-    color:#d1fae5;
-
-    font-size:14px;
-
-}
-
-.register a{
-
-    color:white;
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    transition:0.3s;
-
-}
-
-.register a:hover{
-
-    opacity:0.8;
+    0 12px 30px rgba(34,197,94,0.35);
 
 }
 
@@ -528,15 +303,11 @@ FOOTER
 
 .footer{
 
-    text-align:center;
+    margin-top:35px;
 
-    margin-top:30px;
+    color:#cbd5e1;
 
-    color:#d1fae5;
-
-    font-size:13px;
-
-    opacity:0.9;
+    font-size:14px;
 
 }
 
@@ -546,7 +317,11 @@ RESPONSIVE
 
 @media(max-width:600px){
 
-    .login-box{
+    body{
+        padding:20px;
+    }
+
+    .splash-card{
 
         padding:35px 25px;
 
@@ -556,10 +331,12 @@ RESPONSIVE
 
     .logo{
 
-        width:90px;
-        height:90px;
+        width:95px;
+        height:95px;
 
-        font-size:35px;
+        font-size:42px;
+
+        border-radius:28px;
 
     }
 
@@ -571,19 +348,17 @@ RESPONSIVE
 
     .desc{
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
-    input{
+    .btn{
 
-        padding:16px 16px 16px 50px;
+        padding:18px;
 
-    }
+        font-size:16px;
 
-    button{
-
-        padding:16px;
+        border-radius:18px;
 
     }
 
@@ -601,91 +376,51 @@ RESPONSIVE
 
 <div class="bg-circle bg2"></div>
 
-<div class="bg-circle bg3"></div>
+<!-- CARD -->
 
-<!-- LOGIN -->
-
-<div class="login-box">
-
-<div class="top-badge">
-
-<div class="badge">
-
-Smart Emergency Tracker
-
-</div>
-
-</div>
+<div class="splash-card">
 
 <div class="logo">
 
-<i class="fa-solid fa-shield-heart"></i>
+<i class="fa-solid fa-shield-halved"></i>
 
 </div>
 
 <h1>
-Login Pelapor
+Smart Emergency Tracker
 </h1>
 
 <p class="desc">
 
-Masuk untuk mengakses dashboard pelaporan,
-monitoring darurat, dan sistem keamanan realtime.
+Sistem pelaporan darurat realtime berbasis GPS
+untuk menghubungkan masyarakat dan kepolisian
+secara cepat, aman, dan modern.
 
 </p>
 
-<?php if($error != ''){ ?>
+<div class="button-group">
 
-<div class="error">
+<!-- LOGIN POLISI -->
 
-<i class="fa-solid fa-circle-exclamation"></i>
+<a
+href="admin/login.php"
+class="btn btn-police">
 
-<?php echo $error; ?>
+<i class="fa-solid fa-user-shield"></i>
 
-</div>
+Masuk Sebagai Polisi
 
-<?php } ?>
+</a>
 
-<form method="POST">
+<!-- LOGIN PELAPOR -->
 
-<div class="input-group">
-
-<label class="label">
-Nama Pelapor
-</label>
-
-<div class="input-box">
+<a
+href="login_user.php"
+class="btn btn-user">
 
 <i class="fa-solid fa-user"></i>
 
-<input
-type="text"
-name="nama"
-placeholder="Masukkan nama lengkap"
-required>
-
-</div>
-
-</div>
-
-<button
-type="submit"
-name="login">
-
-<i class="fa-solid fa-right-to-bracket"></i>
-
-Masuk Dashboard
-
-</button>
-
-</form>
-
-<div class="register">
-
-Belum punya akun?
-<a href="register.php">
-
-Register Sekarang
+Masuk Sebagai Pelapor
 
 </a>
 
@@ -693,7 +428,7 @@ Register Sekarang
 
 <div class="footer">
 
-© 2026 Smart Emergency Tracker • Secure Access
+© 2026 Smart Emergency Tracker
 
 </div>
 
